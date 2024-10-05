@@ -1,0 +1,22 @@
+.sidebar-container {
+    height: 100%;
+    border-right: 1px solid rgba(131, 129, 129, 0.603);
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0 0.5vw;
+}
+
+.title img {
+    height: 45px;
+    width: 45px;
+}
+
+/* .hidden-li {
+    display: none;
+} */
