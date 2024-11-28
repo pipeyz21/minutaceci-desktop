@@ -1,18 +1,32 @@
 import React, { useState } from 'react'
 import "../../styles/Orders.css"
+import KanbanView from './KanbanView'
+import TableView from './TableView'
+import AddOrder from '../add_order'
 
 function Orders() {
-  const [kanban, useKanban] = useState()
-  const [table, useTable] = useState()
+  const [kanban, setKanban] = useState(false)
+  const [table, setTable] = useState(true)
+  const [popUp, setPopUp] = useState(false)
   
-  const onClickKanban = () => {
-    
-
-
+  const handleClickKanban = () => {
+    setTable(false)
+    setKanban(true)
   }
+
+  const handleClickTable = () => {
+    setTable(true)
+    setKanban(false)
+  }
+
+  const handleClickAddOrder = () => {
+    setPopUp(true)
+  }
+
   return (
     <>
       <h1>Pedidos</h1>
+      {popUp && <AddOrder />}
       <div className='order-header'>
         <div className='header-searcher'>
           <input type="text" placeholder='Buscar pedido o cliente'/>
@@ -20,23 +34,25 @@ function Orders() {
         </div>
         <p>Filtro fecha</p>
         <p>Filtro estado</p>
-        <div className='header-buttons-container'>
-          <button className='header-buttons' id='table'>
+        <div className='header-buttons-container' >
+          <button className='header-buttons' id='table' onClick={handleClickTable}>
             Tabla
           </button>
-          <button className='header-buttons' id='kanban'>
+          <button className='header-buttons' id='kanban' onClick={handleClickKanban}>
             Kanban
           </button>
         </div>
       </div>
 
       <div className='order-container'>
-        <TableView />
-        <KanbanView />
+        {table && <TableView />}
+        
+        {kanban && <KanbanView />}
+
       </div>
       
       <div>
-        <button className='add-order'>
+        <button className='add-order' onClick={handleClickAddOrder}>
           +
         </button>
       </div>
@@ -46,35 +62,3 @@ function Orders() {
 
 export default Orders
 
-function TableView() {
-    return (
-      <>
-        <table className='order-table'>
-          <thead>
-            <tr>
-              <th scope='col'>Pedido</th>
-              <th scope='col'>Fecha</th>
-              <th scope='col'>Cliente</th>
-              <th scope='col'>Estado</th>
-              <th scope='col'>Pago</th>
-              <th scope='col'>Total</th>
-              <th scope='col'>Acciones</th>
-            </tr>
-          </thead>
-          {/* <tbody>
-            1{}
-          </tbody> */}
-        </table>
-
-        <div></div>
-      </>
-    )
-}
-
-function KanbanView() {
-  return(
-    <>
-      <div>Kanban</div>
-    </>
-  )
-}
