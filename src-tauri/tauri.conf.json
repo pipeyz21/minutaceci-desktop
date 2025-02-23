@@ -1,20 +1,22 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "minutaceci",
   "version": "0.1.0",
-  "identifier": "com.minutaceci.app",
+  "identifier": "com.tauri.dev",
   "build": {
+    "frontendDist": "../build",
+    "devUrl": "http://localhost:5173",
     "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
+    "beforeBuildCommand": "npm run build"
   },
   "app": {
     "windows": [
       {
         "title": "minutaceci",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false
       }
     ],
     "security": {

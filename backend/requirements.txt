@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+gunicorn
+libsql-client
+sqlalchemy
+asyncpg
+polars
+pydantic
+python-dotenv
+bcrypt 
+jwt
+passlib
