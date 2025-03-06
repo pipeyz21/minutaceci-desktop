@@ -1,12 +1,13 @@
+asyncpg
+bcrypt 
 fastapi
-uvicorn
+fastexcel
 gunicorn
 libsql-client
 sqlalchemy
-asyncpg
 polars
 pydantic
 python-dotenv
-bcrypt 
+uvicorn
 jwt
 passlib
