@@ -24,7 +24,8 @@ def same_transformations(list_df: List[pl.DataFrame]) -> pl.DataFrame:
   df_individuals = df_individuals.insert_column(5, pl.Series("Side", ["Individual"] * df_individuals.height))
   df_individuals = df_individuals.insert_column(6, pl.Series("Extra", ["Individual"] * df_individuals.height))
   df_individuals = df_individuals.insert_column(9, pl.Series("Discount", [0] * df_individuals.height))
-  df_individuals = df_individuals.with_columns(pl.col("Boleta") + max_id) 
+  min_id = df_individuals.select(pl.col("Boleta")).min().item() if df_individuals.height > 0 else 0
+  df_individuals = df_individuals.with_columns(pl.col("Boleta") + max_id + 1) 
   df_individuals = df_individuals.rename({
     "Boleta": "Id",
     "Fecha": "Date",
@@ -56,7 +57,9 @@ def transform_orders(list_df: List[pl.DataFrame], df_customers: pl.DataFrame) ->
     how="left"
   )  
 
+  df = df.with_columns(pl.col("Date").cast(pl.Date))
   df = df.drop("Customer")
+ 
   return df.rename({col: col.lower() for col in df.columns})
 
 def transform_orders_details(
@@ -76,8 +79,7 @@ def transform_orders_details(
     "Quantity"
   ])
   df = df.rename({"Id": "Order_Id"})
-  df = df.with_columns(pl.arange(1, df.height + 1).alias("Id"))
-
+  
   # Realizar join para incorporar el ID del plato principal
   df = df.join(
     df_mains.select(pl.col("name").alias("Main"), pl.col("id").alias("main_id")),
@@ -101,9 +103,8 @@ def transform_orders_details(
 
   # Remover columnas innecesarias
   df = df.drop("Main", "Side", "Extra")
+  df = df.with_columns(pl.arange(1, df.height + 1).alias("Id"))
 
-  # print(df)
-  # print(df.columns)
   return df.rename({col: col.lower() for col in df.columns})
 
 def transform_customers(list_df: List[pl.DataFrame]) -> pl.DataFrame:

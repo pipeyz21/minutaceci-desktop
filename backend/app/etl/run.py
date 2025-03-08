@@ -28,11 +28,11 @@ async def run_pipeline():
   df_orders = transform_orders(df_list, df_customers)
   df_orders_details = transform_orders_details(df_list, df_mains, df_sides, df_extras)
 
-  print(df_orders_details.dtypes)
-  print(df_orders_details.columns)
+  print(df_orders.dtypes)
+  print(df_orders.columns)
 
   print("💾 Creando tablas en la base de datos...")
-  await create_tables()  # 🔥 Asegura que las tablas existen antes de insertar datos
+  # await create_tables()  # 🔥 Asegura que las tablas existen antes de insertar datos
 
   print("💾 Insertando en la base de datos...")
   await save_df(df_customers, Customer)
