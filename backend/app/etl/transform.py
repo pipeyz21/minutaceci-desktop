@@ -59,6 +59,10 @@ def transform_orders(list_df: List[pl.DataFrame], df_customers: pl.DataFrame) ->
 
   df = df.with_columns(pl.col("Date").cast(pl.Date))
   df = df.drop("Customer")
+
+  df = df.insert_column(5, pl.Series("delivered", ["Si"] * df.height))
+  df = df.insert_column(6, pl.Series("payment_method", ["Efectivo"] * df.height))
+  df = df.insert_column(7, pl.Series("payment_status", ["Pagado"] * df.height))
  
   return df.rename({col: col.lower() for col in df.columns})
 

@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.database import engine
+from app.database import engine, Base
 from typing import Type
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -13,7 +13,6 @@ SessionLocal = sessionmaker(bind=engine, expire_on_commit=False, class_=AsyncSes
 
 async def create_tables():
   """Crea las tablas en la base de datos de forma asíncrona."""
-  Base = declarative_base()
   async with engine.begin() as conn:
     await conn.run_sync(Base.metadata.create_all)
 
@@ -62,6 +61,9 @@ def process_csv(temp_csv: str, session, model: Type[declarative_base]) -> None:
           # continue
         else:
           data_dict["date"] = datetime.strptime(date_str, "%Y-%m-%d").date()
+
+      if "id" in data_dict:
+        data_dict["id"] = int(data_dict["id"])
 
       if "side_id" in data_dict:
         if data_dict.get("side_id", "") == "":
